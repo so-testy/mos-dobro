@@ -1,0 +1,15 @@
+version: '4.9.0'
+
+services:
+  ##### MySQL #####
+  mysql:
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--innodb_flush_log_at_trx_commit=0"
+    image: "mysql:latest"
+    environment:
+      MYSQL_DATABASE: "${DB_MY_SQL_NAME}"
+      MYSQL_ROOT_PASSWORD: "${DB_MY_SQL_PASS}"
+    ports:
+      - "${DB_MY_SQL_PORT}:3306"
