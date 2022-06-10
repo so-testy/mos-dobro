@@ -6,12 +6,12 @@ import (
 	"net/http"
 )
 
-type getTokenByPhoneCodeRequest struct {
-	SmsCode string `json:"sms_code"`
+type authenticateByPhoneRequest struct {
+	Phone string `json:"phone"`
 }
 
-// GetTokenByPhoneCode - эндпоинт получения JWT токена по sms коду
-func (c *Controller) GetTokenByPhoneCode(resp http.ResponseWriter, req *http.Request) {
+// AuthenticateByPhone - эндпоинт аутентификации пользователя по номеру телефона
+func (c *Controller) AuthenticateByPhone(resp http.ResponseWriter, req *http.Request) {
 	// Читаем тело запроса
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
@@ -20,19 +20,17 @@ func (c *Controller) GetTokenByPhoneCode(resp http.ResponseWriter, req *http.Req
 	}
 
 	// Преобразуем тело запроса в структуру
-	var reqData getTokenByPhoneCodeRequest
+	var reqData authenticateByPhoneRequest
 	if err = json.Unmarshal(body, &reqData); err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	// Аутентифицируем пользователя по номеру телефона
-	jwt, err := c.authS.GetTokenByPhoneCode(req.Context(), reqData.SmsCode)
-	if err != nil {
+	if err = c.authS.AuthenticateByPhone(req.Context(), reqData.Phone); err != nil {
 		// TODO: Тут обработчик ошибок
 	}
 
-	// Добавляем токен в Header
-	resp.Header().Add("Authorization", jwt)
+	// Выстовляем корректный статус ответа
 	resp.WriteHeader(http.StatusOK)
 }

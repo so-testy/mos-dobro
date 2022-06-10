@@ -27,10 +27,10 @@ func NewAuthController(cfg config.Config, router *mux.Router, authS auth.Service
 func (c *Controller) Init() {
 	c.router.HandleFunc(c.getAuthPath("userRegistration"), c.UserRegistration).Methods(http.MethodPost)
 	c.router.HandleFunc(c.getAuthPath("authenticateByPhone"), c.AuthenticateByPhone).Methods(http.MethodPost)
-	c.router.HandleFunc(c.getAuthPath("getTokenByPhoneCode"), c.GetTokenByPhoneCode).Methods(http.MethodPost)
+	c.router.HandleFunc(c.getAuthPath("getTokenByPhoneCode"), c.GetTokenByPhoneCode).Methods(http.MethodGet)
 }
 
 // getAuthPath - метод получения пути Auth роута
 func (c *Controller) getAuthPath(path string) string {
-	return fmt.Sprintf("/auth/%s", path)
+	return fmt.Sprintf("/my-sql/%s", path)
 }

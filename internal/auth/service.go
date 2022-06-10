@@ -6,6 +6,7 @@ import (
 )
 
 type Service interface {
-	UserRegistration(ctx context.Context, login, password string, role common.UserRole) error
-	AuthenticateByLoginPassword(ctx context.Context, login, password string) (string, error)
+	UserRegistration(ctx context.Context, login, password string, role common.UserRole) (string, error)
+	AuthenticateByPhone(ctx context.Context, phone string) error
+	GetTokenByPhoneCode(ctx context.Context, smsCode string) (string, error)
 }

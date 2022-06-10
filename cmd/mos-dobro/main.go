@@ -7,7 +7,7 @@ import (
 	"mos-dobro/config"
 	"mos-dobro/endpoints"
 	"mos-dobro/internal/auth"
-	myslq "mos-dobro/internal/repository/my-slq"
+	"mos-dobro/internal/repository"
 	"net/http"
 	"time"
 )
@@ -16,8 +16,8 @@ func main() {
 	// Получаем конфиг настройки
 	cfg := config.GetConfig()
 
-	// Инициализируем репозиторий
-	repo, err := myslq.NewRepository(cfg)
+	// Инициализируем менеджера репозиториев
+	repoManager, err := repository.NewRepositoryManager(cfg)
 	if err != nil {
 		panic(err)
 	}
@@ -26,7 +26,7 @@ func main() {
 	router := mux.NewRouter()
 
 	// Создаем Auth сервис
-	authS, err := auth.NewService(cfg, repo)
+	authS, err := auth.NewService(cfg, repoManager.MySQL())
 	if err != nil {
 		panic(err)
 	}

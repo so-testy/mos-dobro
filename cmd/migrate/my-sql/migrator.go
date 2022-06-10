@@ -8,7 +8,7 @@ import (
 	"runtime"
 
 	_ "github.com/go-sql-driver/mysql"
-	_ "mos-dobro/migrations/auth"
+	_ "mos-dobro/migrations/my-sql"
 )
 
 func RunMigrations(cfg config.Config) error {
